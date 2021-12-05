@@ -1,0 +1,31 @@
+version: '3.9'
+services:
+  envoy:
+    image: envoyproxy/envoy-dev:48c4fb87e9632baa6145a21771fb4d67d4aa4231
+    ports:
+      - '10000:10000'
+    volumes:
+      - ./conf/envoy.yaml:/envoy-custom.yaml
+    command:
+      - -c
+      - /envoy-custom.yaml
+  serviceA:
+    image: sageecute/hello-server:latest
+    environment:
+      ROUTE: serviceA
+      PORT: 3000
+  serviceB:
+    image: sageecute/hello-server:latest
+    environment:
+      ROUTE: serviceB
+      PORT: 3000
+  serviceC:
+    image: sageecute/hello-server:latest
+    environment:
+      ROUTE: serviceC
+      PORT: 3000
+  serviceD:
+    image: sageecute/hello-server:latest
+    environment:
+      ROUTE: serviceD
+      PORT: 3000
