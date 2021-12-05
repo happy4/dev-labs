@@ -20,72 +20,65 @@ static_resources:
               domains: ["*"]
               routes:
               - match:
-                  path: "/serviceA"
+                  path: "/service1"
                 route:
-                  cluster: service_a
+                  cluster: app1
               - match:
-                  path: "/serviceB"
+                  path: "/service2"
                 route:
-                    cluster: service_b
+                    cluster: app2
               - match:
-                  path: "/serviceCD"
-                route:
-                  cluster: service_cd
-              - match:
-                  prefix: "/"
+                  prefix: "/admin"
                 direct_response:
-                  status: 404
+                  status: 403
                   body:
-                    inline_string: "page not found"
+                    inline_string: "Forbidden, 403"
+              - match:
+                  path: "/"
+                route:
+                  cluster: apps
   clusters:
-    - name: service_a
+    - name: app1
       connect_timeout: 0.25s
       type: LOGICAL_DNS
-      dns_lookup_family: V4_ONLY
       lb_policy: ROUND_ROBIN
       load_assignment:
-        cluster_name: service_a
+        cluster_name: app1
         endpoints:
         - lb_endpoints:
           - endpoint:
               address:
                 socket_address:
-                  address: serviceA
-                  port_value: 3000
-    - name: service_b
+                  address: server9001
+                  port_value: 9001
+    - name: app2
       connect_timeout: 0.25s
       type: LOGICAL_DNS
-      dns_lookup_family: V4_ONLY
       lb_policy: ROUND_ROBIN
       load_assignment:
-        cluster_name: service_b
+        cluster_name: app2
         endpoints:
         - lb_endpoints:
           - endpoint:
               address:
                 socket_address:
-                  address: serviceB
-                  port_value: 3000
-    - name: service_cd
-      connect_timeout: 0.25s
+                  address: server9002
+                  port_value: 9002
+    - name: apps
+      connect_timeout: 1s
       type: STRICT_DNS
-      dns_lookup_family: V4_ONLY
       lb_policy: ROUND_ROBIN
       load_assignment:
-        cluster_name: service_cd
+        cluster_name: apps
         endpoints:
         - lb_endpoints:
           - endpoint:
-              health_check_config:
-                port_value: 3000
               address:
                 socket_address:
-                  address: serviceCD
-                  port_value: 3000
+                  address: server9003
+                  port_value: 9003
           - endpoint:
-              health_check_config:
-                port_value: 3000
               address:
                 socket_address:
-                  address: serviceCD
-                  port_value: 3000
+                  address: server9004
+                  port_value: 9004
