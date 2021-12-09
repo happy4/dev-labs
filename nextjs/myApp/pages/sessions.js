@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import SessionCard from "../src/SessionCard";
 
 class Index extends React.Component {
 
@@ -31,25 +32,17 @@ class Index extends React.Component {
         }
     }
 
-
-    componentDidMount() {
-
-    }
-
-    componentWillUnmount() {
-
-    }
-
     render() {
         return (
-
-            <ul>
-                {this.state.sessionData.map((session) =>
-                    <li key={session.id}>
-                        {session.title} {session.id}
-                    </li>
-                )}
-            </ul>
+          <div className="container">
+            <div className="row">
+              {this.state.sessionData.map((session) =>
+                <div className="card col-4 cardmin margintopbottom" key={session.id}>
+                  <SessionCard session={session}/>
+                </div>
+              )}
+            </div>
+          </div>
         )
     }
 

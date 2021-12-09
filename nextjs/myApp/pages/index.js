@@ -1,65 +1,24 @@
-import React from 'react';
-import axios from 'axios';
-import Link from 'next/Link';
+import React, {Component} from 'react';
 
-class Index extends React.Component {
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../css/site.module.css';
 
-  static async getInitialProps () {
-    const promise = axios.get('http://localhost:4000/speakers').
-      then(response => {
-        return {
-          hasError: false,
-          speakerData: response.data
-        }
-      })
-      .catch(error => {
-        return {
-          hasError: true,
-          message: error.message
-        }
-      });
-      return promise;
-  }
+class Index extends Component {
 
-  constructor(props) {
-    super(props);
+    static async getInitialPtops() {
+      return {};
+    }
 
-    const {
-      speakerData,
-      hasError,
-      message
-    } = props;
+    render() {
+        return (
+            <div>
 
-    this.state = {
-      speakerData,
-      hasError,
-      message
-    };
-  }
+            </div>
+        );
+    }
+}
 
-  componentDidMount() {
-  }
-
-  render() {
-    return (
-      <>
-        <Link href="/sessions">
-          <a>SESSIONS</a>
-        </Link>
-        <ul>
-          {this.state.speakerData.map((speaker) =>
-              <li key={speaker.id}>
-                {speaker.firstName}
-              </li>
-            )
-          }
-        </ul>
-      </>
-    )
-  }
-
-  componentWillUnmount() {
-  }
-};
+Index.propTypes = {};
+Index.defaultProps = {};
 
 export default Index;
