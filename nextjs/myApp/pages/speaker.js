@@ -1,10 +1,21 @@
 import React from 'react';
 import axios from 'axios';
+import getConfig from 'next/config';
+const { publicRuntimeConfig } = getConfig();
 
 class Speaker extends React.Component {
 
+  static GetSpeakerUrl() {
+    if (process.env.NODE_ENV === "production") {
+        return process.env.RESTURL_SPEAKER_PROD
+            || publicRuntimeConfig.RESTURL_SPEAKER_PROD;
+    } else {
+        return process.env.RESTURL_SPEAKER_DEV;
+    }
+  }
+
   static async getInitialProps ({query}) {
-    const promise = axios.get(`http://localhost:4000/speakers/${query.speakerId}`).
+    const promise = axios.get(`${Speaker.GetSpeakerUrl()}/${query.speakerId}`).
       then(response => {
         return {
           hasError: false,
