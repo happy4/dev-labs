@@ -1,4 +1,5 @@
 //Works when the array has already been sorted.
+// Time Complexity - log(n)
 const binarySearch = (array, element) => {
   let left = 0;
   let right = array.length;
